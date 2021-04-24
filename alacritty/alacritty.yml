@@ -49,7 +49,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: full
+  decorations: none
 
   # Startup Mode (changes require restart)
   #
@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 10
+  size: 11
   normal:
     # Font family
     #
@@ -110,7 +110,7 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     # family:  MesloLGS NF
-    family:  JetBrains Mono NL
+    family:  JetBrains Mono
 
     # The `style` can be specified to pick a specific face.
     #style: Bold
@@ -141,7 +141,7 @@ font:
     #style: Bold Italic
 
   # Point size
-    size: 9.0
+    size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -164,6 +164,178 @@ font:
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
+
+schemes:
+    gruvbox_dark: &gruvbox_dark
+      primary:
+          # hard contrast: background = '#1d2021'
+          background: '#282828'
+          # soft contrast: background = '#32302f'
+          foreground: '#ebdbb2'
+
+  # Normal colors
+      normal:
+          black:   '#282828'
+          red:     '#cc241d'
+          green:   '#98971a'
+          yellow:  '#d79921'
+          blue:    '#458588'
+          magenta: '#b16286'
+          cyan:    '#689d6a'
+          white:   '#a89984'
+
+  # Bright colors
+    bright:
+        black:   '#928374'
+        red:     '#fb4934'
+        green:   '#b8bb26'
+        yellow:  '#fabd2f'
+        blue:    '#83a598'
+        magenta: '#d3869b'
+        cyan:    '#8ec07c'
+        white:   '#ebdbb2'
+
+        cursor:
+            text: '#000000'
+            cursor: '#ffffff'
+
+    gruvbox_light: &gruvbox_light
+      primary:
+          # hard contrast: background = '#f9f5d7'
+          background: '#fbf1c7'
+          # soft contrast: background = '#f2e5bc'
+          foreground: '#3c3836'
+
+  # Normal colors
+      normal:
+          black:   '#fbf1c7'
+          red:     '#cc241d'
+          green:   '#98971a'
+          yellow:  '#d79921'
+          blue:    '#458588'
+          magenta: '#b16286'
+          cyan:    '#689d6a'
+          white:   '#7c6f64'
+
+    # Bright colors
+    bright:
+        black:   '#928374'
+        red:     '#9d0006'
+        green:   '#79740e'
+        yellow:  '#b57614'
+        blue:    '#076678'
+        magenta: '#8f3f71'
+        cyan:    '#427b58'
+        white:   '#3c3836'
+
+        cursor:
+            text: '#000000'
+            cursor: '#ffffff'
+
+    base16_dark: &base16_dark
+      primary:
+          background: '#181818'
+          foreground: '#d8d8d8'
+
+  # Normal colors
+    normal:
+      black:   '#181818'
+      red:     '#ab4642'
+      green:   '#a1b56c'
+      yellow:  '#f7ca88'
+      blue:    '#7cafc2'
+      magenta: '#ba8baf'
+      cyan:    '#86c1b9'
+      white:   '#d8d8d8'
+
+  # Bright colors
+    bright:
+        black:   '#585858'
+        red:     '#ab4642'
+        green:   '#a1b56c'
+        yellow:  '#f7ca88'
+        blue:    '#7cafc2'
+        magenta: '#ba8baf'
+        cyan:    '#86c1b9'
+        white:   '#f8f8f8'
+
+        cursor:
+            text: '#000000'
+            cursor: '#ffffff'
+
+    iTerm2: &iTerm2
+      primary:
+          background: '#101421'
+          foreground: '#fffbf6'
+
+ # Normal colors
+      normal:
+        black:   '#2e2e2e'
+        red:     '#eb4129'
+        green:   '#abe047'
+        yellow:  '#f6c744'
+        blue:    '#47a0f3'
+        magenta: '#7b5cb0'
+        cyan:    '#64dbed'
+        white:   '#e5e9f0'
+
+ # Bright colors
+      bright:
+        black:   '#565656'
+        red:     '#ec5357'
+        green:   '#c0e17d'
+        yellow:  '#f9da6a'
+        blue:    '#49a4f8'
+        magenta: '#a47de9'
+        cyan:    '#99faf2'
+        white:   '#ffffff'
+
+      cursor:
+        text: '#000000'
+        cursor: '#ffffff'
+
+    kitty: &kitty
+
+      primary:
+        background: '#210215'
+        #background: '#eeeeee'
+        foreground: '#dddddd'
+
+  # Normal colors
+      normal:
+        black:   '#000000'
+        red:     '#cc0403'
+        green:   '#19cb00'
+        yellow:  '#cecb00'
+        blue:    '#0d73cc'
+        magenta: '#cb1ed1'
+        cyan:    '#0dcdcd'
+        white:   '#dddddd'
+
+  # Bright colors
+      bright:
+        black:   '#767676'
+        red:     '#f2201f'
+        green:   '#23fd00'
+        yellow:  '#fffd00'
+        blue:    '#1a8fff'
+        magenta: '#fd28ff'
+        cyan:    '#14ffff'
+        white:   '#ffffff'
+
+      cursor:
+        text: '#000000'
+        cursor: '#ffffff'
+
+      vi_mode_cursor:
+        text: '#000000'
+        cursor: '#ffffff'
+
+      selection:
+        text: '#eaeaea'
+        background: '#404040'
+
+colors: *kitty
 
 # Colors (Tomorrow Night)
 #colors:
@@ -292,14 +464,14 @@ background_opacity: 0.8
 # Allow terminal applications to change Alacritty's window title.
 #dynamic_title: true
 
-#cursor:
+cursor:
   # Cursor style
   #
   # Values for `style`:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  #style: Block
+  style: Beam
 
   # Vi mode cursor style
   #
