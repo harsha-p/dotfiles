@@ -1,0 +1,145 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 24,
+    "modules-left": ["sway/workspaces","sway/mode","wlr/taskbar"],
+    "modules-center": ["sway/window"],
+    "modules-right":
+	["backlight","battery","clock#time","clock#date","cpu","memory","network","pulseaudio","idle_inhibitor","tray"],
+
+	"sway/mode": {
+		"format": " {}",
+		"max-length": 50
+	},
+	"sway/window": {
+		"format": "{}",
+		"max-length": 50,
+		"rewrite": {
+		"(.*) - Mozilla Firefox": "🌎 $1",
+		"(.*) - vim": " $1",
+		"(.*) - zsh": " [$1]"
+		}
+	},
+    "sway/workspaces": {
+		"disable-scroll": true,
+		"disable-click": false,
+		"all-outputs":true,
+		"disable-scroll": true,
+		"all-outputs": true,
+		"format": "{name}: {icon}",
+		"format-icons": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": "",
+			"urgent": "",
+			"focused": "",
+			"default": ""
+		}
+	},
+
+	"backlight": {
+		"device": "intel_backlight",
+		"format": " {percent}% {icon}",
+		//"format-icons": ["🔅", "🔆"],
+		"format-icons": ["", ""],
+		"on-click": "brightnessctl s 5%-",
+		"on-click-right": "brightnessctl s 5%+",
+	},
+
+	"battery": {
+		"states": {
+			// "good": 95,
+			"warning": 20,
+			"critical": 10
+		},
+		"format": "{icon} {capacity}% ({time})",
+		"format-charging": " {icon} {capacity}% ({time})",
+//		"format-good": "", // An empty format will hide the module
+		"format-discharging": "{icon} {capacity}% ({time})",
+		"format-icons": ["", "", "", "", ""]
+	},
+	"clock#time": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}",
+        "tooltip": false
+    },
+
+    "clock#date": {
+      "interval": 10,
+      "format": "  {:%e %b %Y}", // Icon: calendar-alt
+      "tooltip-format": "{:%e %B %Y}"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "  {usage}% ({load})", // Icon: microchip
+        "states": {
+          "warning": 70,
+          "critical": 90
+        }
+    },
+
+	"idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+
+	"memory": {
+		"interval": 10,
+		"format": "{used:0.1f}G/{total:0.1f}G  "
+	},
+
+	"network": {
+		"interface": "wlp3s0",
+		"format": "{ifname}",
+		"format-wifi": "{essid} ({signalStrength}%) ",
+		"format-ethernet": "{ifname} ",
+		"format-disconnected": "", //An empty format will hide the module.
+		"tooltip-format": "{ifname}",
+		"tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+		"tooltip-format-ethernet": "{ifname} ",
+		"tooltip-format-disconnected": "Disconnected",
+		/* "max-length": 50 */
+	},
+
+	"pulseaudio": {
+		"format": " {volume}% {icon} {format_source}",
+		"format-bluetooth": " {volume}% {icon}",
+		"format-muted": "mute {format_source}",
+		"format-source": " {volume}%",
+		"format-source-muted": " mute",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": ["", ""]
+		},
+		"scroll-step":1,
+		//"on-click-middle": "pavucontrol",
+		//"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-middle":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-right":"pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+		"on-click":"pavucontrol",
+		"tooltip":false,
+	},
+	"tray": {
+		"icon-size": 21,
+		"spacing": 10
+	},
+	"wlr/taskbar": {
+		"format": "{icon}",
+		"icon-size": 14,
+		"icon-theme": "Numix-Circle",
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+		"on-click-middle": "close"
+	},
+}
