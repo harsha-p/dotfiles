@@ -229,9 +229,7 @@ bar {
 
 exec --no-startup-id systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
-exec --no-startup-id volumeicon
 
 bindsym $mod+Shift+x exec "swaylock -f -i ~/Pictures/Wallpapers/moon.png"
 
