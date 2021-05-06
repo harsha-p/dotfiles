@@ -1,0 +1,61 @@
+window#waybar {
+    background: transparent;
+    font-family: "JetBrains Mono";
+    font-size: 13px;
+}
+
+window > box {
+	margin: 5px;
+	border-left: 100px;
+    background:transparent;
+	border-radius: 10px;
+    color: white;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background: transparent;
+    color: white;
+    border-bottom: 2px solid transparent;
+}
+
+#workspaces button.focused {
+    color: #ebdbb2;
+	background-color:rgba(104,157,106,255);
+	font-weight: 900;
+	border-radius: 10px;
+}
+
+#tray, #temperature, #clock, #battery, #cpu, #memory, #network, #pulseaudio {
+    padding: 0 5px;
+    margin-right: 0px;
+    margin-bottom: 1px;
+}
+
+#temperature.critical {
+    color: red;
+}
+
+#battery icon {
+    color: red;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
+}
+
+#battery.warning:not(.charging) {
+    color: white;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#network.disconnected {
+    background: #f53c3c;
+}
