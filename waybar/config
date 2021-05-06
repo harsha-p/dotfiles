@@ -2,23 +2,24 @@
     "layer": "top",
     "position": "top",
     "height": 24,
-    "modules-left": ["sway/workspaces","sway/mode","wlr/taskbar"],
-    "modules-center": ["sway/window"],
+    "modules-left": ["sway/workspaces","sway/mode","wlr/taskbar","sway/window"],
+    "modules-center": ["clock"],
     "modules-right":
-	["backlight","battery","clock#time","clock#date","cpu","memory","network","pulseaudio","idle_inhibitor","tray"],
+	["backlight","battery","memory","pulseaudio","idle_inhibitor","tray","custom/logout"],
 
 	"sway/mode": {
 		"format": " {}",
 		"max-length": 50
 	},
 	"sway/window": {
-		"format": "{}",
 		"max-length": 50,
 		"rewrite": {
 		"(.*) - Mozilla Firefox": "🌎 $1",
-		"(.*) - vim": " $1",
+		"(.*) - Google Chrome": "🌎 $1",
+		"(.*) - NVIM": " $1",
 		"(.*) - zsh": " [$1]"
-		}
+		},
+		"format": "| {}",
 	},
     "sway/workspaces": {
 		"disable-scroll": true,
@@ -41,7 +42,7 @@
 
 	"backlight": {
 		"device": "intel_backlight",
-		"format": " {percent}% {icon}",
+		"format": "{icon} {percent}% |",
 		//"format-icons": ["🔅", "🔆"],
 		"format-icons": ["", ""],
 		"on-click": "brightnessctl s 5%-",
@@ -51,24 +52,25 @@
 	"battery": {
 		"states": {
 			// "good": 95,
-			"warning": 20,
-			"critical": 10
+			"warning": 30,
+			"critical": 15
 		},
-		"format": "{icon} {capacity}% ({time})",
-		"format-charging": " {icon} {capacity}% ({time})",
+		"format": "{icon} {capacity}% ({time}) |",
+		"format-charging": " {icon} {capacity}% ({time}) |",
 //		"format-good": "", // An empty format will hide the module
-		"format-discharging": "{icon} {capacity}% ({time})",
+		"format-discharging": "{icon} {capacity}% ({time}) |",
 		"format-icons": ["", "", "", "", ""]
 	},
-	"clock#time": {
+	"clock": {
         "interval": 1,
-        "format": "{:%H:%M:%S}",
+        "format": "|{:%e %b %Y %H:%M:%S} |",
         "tooltip": false
     },
 
     "clock#date": {
       "interval": 10,
-      "format": "  {:%e %b %Y}", // Icon: calendar-alt
+      /* "format": "  {:%e %b %Y}", // Icon: calendar-alt */
+      "format": "{:%e-%b-%y}", // Icon: calendar-alt
       "tooltip-format": "{:%e %B %Y}"
     },
 
@@ -91,11 +93,11 @@
 
 	"memory": {
 		"interval": 10,
-		"format": "{used:0.1f}G/{total:0.1f}G  "
+		"format": "{used:0.1f}G/{total:0.1f}G"
 	},
 
 	"network": {
-		"interface": "wlp3s0",
+		/* "interface": "wlp3s0", */
 		"format": "{ifname}",
 		"format-wifi": "{essid} ({signalStrength}%) ",
 		"format-ethernet": "{ifname} ",
@@ -105,14 +107,15 @@
 		"tooltip-format-ethernet": "{ifname} ",
 		"tooltip-format-disconnected": "Disconnected",
 		/* "max-length": 50 */
+		"on-click":"nm-connection-editor"
 	},
 
 	"pulseaudio": {
-		"format": " {volume}% {icon} {format_source}",
-		"format-bluetooth": " {volume}% {icon}",
-		"format-muted": "mute {format_source}",
+		"format": "|{icon} {volume}% {format_source} |",
+		"format-bluetooth": "|{icon} {volume}%|",
+		"format-muted": "|mute {format_source} |",
 		"format-source": " {volume}%",
-		"format-source-muted": " mute",
+		"format-source-muted": "mute",
 		"format-icons": {
 			"headphone": "",
 			"hands-free": "",
@@ -123,23 +126,41 @@
 			"default": ["", ""]
 		},
 		"scroll-step":1,
-		//"on-click-middle": "pavucontrol",
-		//"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
-		"on-click-middle":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"on-click-middle": "pavucontrol",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
 		"on-click-right":"pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-		"on-click":"pavucontrol",
 		"tooltip":false,
 	},
 	"tray": {
-		"icon-size": 21,
-		"spacing": 10
+		"icon-size": 20,
+		"spacing": 5,
 	},
 	"wlr/taskbar": {
 		"format": "{icon}",
 		"icon-size": 14,
-		"icon-theme": "Numix-Circle",
+		/* "icon-theme": "Numix-Circle", */
 		"tooltip-format": "{title}",
 		"on-click": "activate",
 		"on-click-middle": "close"
+	},
+	"custom/logout":{
+		"format":" ",
+		"on-click":"nwgbar",
+		/* "on-click-right":"wlogout", */
+	},
+	"custom/vpn": {
+		"format": "",
+		"exec": "echo '{\"class\": \"connected\"}'",
+		"exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
+		"return-type": "json",
+		"interval": 5
+	},
+	"custom/scratchpad-indicator": {
+		"interval": 3,
+		"return-type": "json",
+		"exec": "swaymsg -t get_tree | jq --unbuffered --compact-output '( select(.name == \"root\") | .nodes[] | select(.name == \"__i3\") | .nodes[] | select(.name == \"__i3_scratch\") | .focus) as $scratch_ids | [..  | (.nodes? + .floating_nodes?) // empty | .[] | select(.id |IN($scratch_ids[]))] as $scratch_nodes | { text: \"\\($scratch_nodes | length)\", tooltip: $scratch_nodes | map(\"\\(.app_id // .window_properties.class) (\\(.id)): \\(.name)\") | join(\"\\n\") }'",
+		"format": "{} 🗗",
+		"on-click": "exec swaymsg 'scratchpad show'",
+		"on-click-right": "exec swaymsg 'move scratchpad'"
 	},
 }

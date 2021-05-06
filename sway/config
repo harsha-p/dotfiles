@@ -19,7 +19,8 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $menu wofi --show=drun --lines=5 --prompt=""
+#set $menu wofi --show=drun --lines=5 --prompt=""
+set $menu nwggrid
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -34,12 +35,13 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 ### Idle configuration
 #
 # Example configuration:
-#
- exec swayidle -w \
-          timeout 300 'swaylock -f -i ~/Pictures/Wallpapers/moon.png' \
-          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep 'swaylock -f -i ~/Pictures/Wallpapers/moon.png'
-#
+
+
+exec swayidle -w \
+  timeout 60 'swaylock -f -c 000000' \
+  timeout 90 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+  before-sleep 'swaylock -f -c 000000'
+
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
@@ -72,7 +74,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+Return exec $term
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym $mod+q kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
@@ -88,7 +90,8 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+	bindsym $mod+Shift+e  exec nwgbar
 #
 # Moving around:
 #
@@ -227,9 +230,14 @@ bar {
     }
 }
 
+
+
+
 exec --no-startup-id systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id blueman-applet
+exec --no-startup-id nm-applet --indicator
+exec_always --no-startup-id workstyle &> /tmp/workstyle.log
 
 bindsym $mod+Shift+x exec "swaylock -f -i ~/Pictures/Wallpapers/moon.png"
 

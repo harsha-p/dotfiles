@@ -1,44 +1,35 @@
-* {
-    border: none;
-    border-radius: 0;
-    font-family: "Fira Sans Mono";
+window#waybar {
+    background: transparent;
+    font-family: "JetBrains Mono";
     font-size: 13px;
-    min-height: 0;
 }
 
-window#waybar {
-    /* background: transparent; */
-    background: black;
+window > box {
+	margin: 5px;
+	border-left: 100px;
+    background: rgba(0, 60, 60, 0.7);
+	border-radius: 10px;
     color: white;
 }
-
-#window {
-    font-family: "Fantasque";
-    margin-top: 5px;
-}
-
-/*
-#workspaces {
-    padding: 0 5px;
-}
-*/
 
 #workspaces button {
     padding: 0 5px;
     background: transparent;
     color: white;
-    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
 }
 
 #workspaces button.focused {
-    color: white;
-    border-top: 2px solid white;
+    color: rgba(0, 100, 80,0.7);
+	background-color: white;
+	font-weight: 900;
+	border-radius: 10px;
 }
 
 #tray, #temperature, #clock, #battery, #cpu, #memory, #network, #pulseaudio {
     padding: 0 5px;
-    margin-right: 5px;
-    margin-top: 5px;
+    margin-right: 0px;
+    margin-bottom: 1px;
 }
 
 #temperature.critical {
