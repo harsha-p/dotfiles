@@ -7,7 +7,7 @@ window#waybar {
 window > box {
 	margin: 5px;
 	border-left: 100px;
-    background: rgba(0, 60, 60, 0.7);
+    background:dimgrey;
 	border-radius: 10px;
     color: white;
 }
@@ -20,8 +20,8 @@ window > box {
 }
 
 #workspaces button.focused {
-    color: rgba(0, 100, 80,0.7);
-	background-color: white;
+    color: white;
+	background-color:rgb(149,147,149);
 	font-weight: 900;
 	border-radius: 10px;
 }
