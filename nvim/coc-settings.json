@@ -1,3 +1,40 @@
 {
-	"diagnostic.displayByAle": true
+    "diagnostic.checkCurrentLine": true,
+  "languageserver": {
+    "dart": {
+        "command": "dart",
+        "args": [
+        "/home/harsha/development/flutter/bin/cache/dart-sdk/bin/snapshots/analysis_server.dart.snapshot",
+        "--lsp",
+        "--client-id",
+        "--client-version",
+        "coc.nvim"
+        ],
+        "filetypes": ["dart"],
+        "disableDynamicRegister": true,
+        "trace.server": "verbose"
+    },
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    },
+     "digestif": {
+       "command": "/home/harsha/.luarocks/bin/digestif",
+       "filetypes": ["tex", "plaintex", "context"]
+    }
+  },
+  "coc.preferences.formatOnSaveFiletypes": ["dart" , "rust", "c", "cpp",
+                                            "python", "javascript", "javascriptreact",
+                                            "typescript", "typescriptreact","go"],
+  "python.formatting.provider": "black",
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": ["--extension-pkg-whitelist=numpy,cv2", "--disable=C0103"],
+  "coc.source.dictionary.filetypes": ["text", "markdown"],
+  "yaml.format.enable": true,
+  "yaml.schemas": {
+      "kubernetes": ["**/kube-deploy.yaml", "**/spec.yaml"],
+      "https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json": ["**/docker-compose.yaml", "**/docker-compose.yml"]
+  },
+  "eslint.autoFixOnSave": true
 }

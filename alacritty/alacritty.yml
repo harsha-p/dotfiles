@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 11
+  size: 13
   normal:
     # Font family
     #
@@ -98,7 +98,8 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: MesloLGS NF
-    family: JetBrains Mono
+    #family: JetBrains Mono
+    family: Iosevka
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -110,7 +111,8 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     # family:  MesloLGS NF
-    family:  JetBrains Mono
+    #family: JetBrains Mono
+    family: Iosevka
 
     # The `style` can be specified to pick a specific face.
     #style: Bold
@@ -122,7 +124,8 @@ font:
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
     # family:  MesloLGS NF
-    family:  Fantasque Sans Mono
+    #family:  Fantasque Sans Mono
+    family: Iosevka
 
     # The `style` can be specified to pick a specific face.
     #style: Italic
@@ -135,7 +138,8 @@ font:
     # value specified for the normal font.
     # family:  MesloLGS NF
     # family: JetBrains Mono NL
-    family:  Fantasque Sans Mono
+    #family:  Fantasque Sans Mono
+    family: Iosevka
 
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
@@ -505,6 +509,16 @@ cursor:
 #  program: /bin/bash
 #  args:
 #    - --login
+
+# shell:
+#   program: /usr/bin/tmux
+#   args:
+#     - new-session
+#     - -A
+#     - -D
+#     - -s
+#     - main
+
 
 # Startup directory
 #
