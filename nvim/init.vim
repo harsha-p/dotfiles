@@ -36,6 +36,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+Plug 'mhinz/vim-startify'
+Plug 'ryanoasis/vim-devicons'
 
 
 call plug#end()
@@ -212,7 +214,6 @@ nnoremap <leader>V :source $MYVIMRC<CR>
 " save session,  After saving a Vim session, you can reopen it with vim -S.
 nnoremap <leader>S :mksession<CR>
 nmap <silent> // :nohlsearch<CR>
-nmap <leader>l : set list!<cr>
 nmap <leader>z <Plug>Zoom
 " switch between current and last buffer
 nmap <leader>. <c-^>
@@ -238,7 +239,7 @@ vnoremap <leader>/ :Commentary<CR>
 " FZF {{{
 
 nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>l :Files<CR>
 
 " }}}
 
@@ -264,7 +265,7 @@ let g:user_emmet_settings = {
 " airline {{{
 
 let g:airline#extensions#tabline#enabled = 1
- " let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
