@@ -327,17 +327,17 @@ schemes:
         cyan:    '#14ffff'
         white:   '#ffffff'
 
-      cursor:
-        text: '#000000'
-        cursor: '#ffffff'
+      # cursor:
+      #   text: '#000000'
+      #   cursor: '#ffffff'
 
-      vi_mode_cursor:
-        text: '#000000'
-        cursor: '#ffffff'
+      # vi_mode_cursor:
+      #   text: '#000000'
+      #   cursor: '#ffffff'
 
-      selection:
-        text: '#eaeaea'
-        background: '#404040'
+      # selection:
+      #   text: '#eaeaea'
+      #   background: '#404040'
 
 colors: *kitty
 
