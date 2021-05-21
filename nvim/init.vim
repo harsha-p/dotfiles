@@ -8,7 +8,7 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'yggdroot/indentline'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
 Plug 'thosakwe/vim-flutter',{'for':'dart'}
@@ -20,7 +20,10 @@ Plug 'MaxMEllon/vim-jsx-pretty',{'for':'jsx'}
 Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+" Plug 'scrooloose/syntastic'
+" Plug 'dense-analysis/ale'
 
 Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' }
 Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
@@ -38,7 +41,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 Plug 'srcery-colors/srcery-vim'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
@@ -131,11 +134,13 @@ set dictionary+=/usr/share/dict/words
 "         set mouse=a
 "     endif
 
-augroup CursorLineOnlyInActiveWindow
-    autocmd!
-    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    autocmd WinLeave * setlocal nocursorline
-augroup END
+" using coc-highlight. So, not using cursorline
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" augroup CursorLineOnlyInActiveWindow
+"     autocmd!
+"     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"     autocmd WinLeave * setlocal nocursorline
+" augroup END
 " set colorcolumn=80
 
 " toggle invisible characters
@@ -261,7 +266,7 @@ nnoremap <Leader>l :Files<CR>
 
 " NERDTree {{{
 
-nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " }}}
 
@@ -311,12 +316,11 @@ let g:livepreview_previewer = 'zathura'
 
 " UltiSnips {{{
 
-let g:UltiSnipsSnippetDirectories = ['~/.UltiSnips']
 let g:UltiSnipsEditSplit="vertical"
-
 let g:UltiSnipsExpandTrigger = "<C-j>"
 let g:UltiSnipsJumpForwardTrigger = "<C-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+
 
 " }}}
 
@@ -325,7 +329,7 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
-set conceallevel=1
+set conceallevel=0
 let g:tex_conceal='abdmg'
 
 " }}}
