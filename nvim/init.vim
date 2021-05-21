@@ -8,37 +8,44 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'yggdroot/indentline'
-Plug 'cespare/vim-toml'
-Plug 'dart-lang/dart-vim-plugin'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'leafgarland/typescript-vim'
+
+Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
+Plug 'thosakwe/vim-flutter',{'for':'dart'}
+" Plug 'leafgarland/typescript-vim'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'lervag/vimtex'
 Plug 'mattn/emmet-vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'morhetz/gruvbox'
+Plug 'MaxMEllon/vim-jsx-pretty',{'for':'jsx'}
+Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'scrooloose/NERDTree'
-Plug 'shime/vim-livedown'
 Plug 'SirVer/ultisnips'
-Plug 'sjl/gundo.vim'
-Plug 'srcery-colors/srcery-vim'
-Plug 'thosakwe/vim-flutter'
-Plug 'tmhedberg/SimpylFold'
+
+Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' }
+Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
+Plug 'shime/vim-livedown',{'for':'md'}
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' " Git
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+Plug 'srcery-colors/srcery-vim'
+" Plug 'morhetz/gruvbox'
+
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -117,6 +124,9 @@ set viminfo='100,<1000,s100,h " i don't know what this is
 
 au VimResized * :wincmd = " equal sized splits
 
+" dictionary
+set dictionary+=/usr/share/dict/words
+
 " if has('mouse')
 "         set mouse=a
 "     endif
@@ -133,7 +143,7 @@ set list
 set listchars=tab:»\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 
 " code folding settings
-set foldmethod=syntax " fold based on indent
+set foldmethod=indent " fold based on indent
 set foldlevelstart=99
 set foldnestmax=10 " deepest fold is 10 levels
 set nofoldenable " don't fold by default
@@ -152,7 +162,7 @@ endif
 " let g:gruvbox_underline=1
 " let g:gruvbox_undercurl=1
 " let g:gruvbox_termcolors=256
-let g:srcery_italic = 1
+" let g:srcery_italic = 1
 colorscheme srcery
 
 if (has("termguicolors"))
@@ -223,6 +233,12 @@ nnoremap <leader>q :bd<CR>
 nnoremap <leader>x :x<CR>
 nnoremap <leader>w :w<CR>
 
+
+" open help for word under cursor
+nnoremap <silent> <Leader>hh :<C-U>help <C-R><C-W><CR>
+nnoremap <silent> <Leader>ht :<C-U>tab help <C-R><C-W><CR>
+
+
 "  netrw {{{
 
 let g:netrw_banner=0
@@ -245,7 +261,7 @@ nnoremap <Leader>l :Files<CR>
 
 " NERDTree {{{
 
-nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>n :NERDTreeFocus<CR>
 
 " }}}
 
@@ -261,6 +277,12 @@ let g:user_emmet_settings = {
 \}
 
 "  }}}
+
+" Wiki {{{
+
+" let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+
+" }}}
 
 " airline {{{
 
@@ -302,6 +324,9 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 
 " }}}
 
@@ -315,6 +340,8 @@ let g:indentLine_enabled = 1
 
 " autocmds {{{
 
+autocmd BufNewFile *.cpp 0r ~/.config/nvim/skeleton.cpp " template for cpp file
+
 if has("autocmd")
     " jump to the last known location
     augroup vimStartup
@@ -326,10 +353,11 @@ if has("autocmd")
     augroup END
 
     " vim pretty display md
-    augroup markDown
-        au!
-        autocmd BufReadPre *.md setlocal conceallevel=2
-    augroup end
+    " augroup markDown
+    "     au!
+    "     autocmd BufReadPre *.md setlocal conceallevel=2 concealcursor=""
+    " augroup end
+
 
     augroup nerdtreeClear
         au!
@@ -354,6 +382,11 @@ endif
 
 " }}}
 
+" coc.nvim {{{
+
+source ~/.config/nvim/coc-init.vim
+
+" }}}
 
 " misc functions{{{
 
@@ -368,11 +401,32 @@ endfunc
 
 " }}}
 
-" coc.nvim recommended {{{
+" " Managing tab.
+" nnoremap <Leader>to :<C-U>tabnew<Space>
+" nnoremap <silent> <Leader>tc :<C-U>tabclose<CR>
+" nnoremap <silent> <Leader>j gT
+" nnoremap <silent> <Leader>k gt
 
-source ~/.config/nvim/coc-init.vim
+" " Spliting window.
+" nnoremap <Leader>sp  :<C-U>split<Space>
+" nnoremap <Leader>vsp :<C-U>vsplit<Space>
 
-" }}}
+" " Changing window size.
+" noremap <silent> <S-Left>  :<C-U>wincmd <<CR>
+" noremap <silent> <S-Right> :<C-U>wincmd ><CR>
+" noremap <silent> <S-Up>    :<C-U>wincmd -<CR>
+" noremap <silent> <S-Down>  :<C-U>wincmd +<CR>
 
-" dictionary
-set dictionary+=/usr/share/dict/words
+"---------------------------------------------------------------------------"
+" Commands \ Modes | Normal | Insert | Command | Visual | Select | Operator |
+"------------------|--------|--------|---------|--------|--------|----------|
+" map  / noremap   |    @   |   -    |    -    |   @    |   @    |    @     |
+" nmap / nnoremap  |    @   |   -    |    -    |   -    |   -    |    -     |
+" vmap / vnoremap  |    -   |   -    |    -    |   @    |   @    |    -     |
+" omap / onoremap  |    -   |   -    |    -    |   -    |   -    |    @     |
+" xmap / xnoremap  |    -   |   -    |    -    |   @    |   -    |    -     |
+" smap / snoremap  |    -   |   -    |    -    |   -    |   @    |    -     |
+" map! / noremap!  |    -   |   @    |    @    |   -    |   -    |    -     |
+" imap / inoremap  |    -   |   @    |    -    |   -    |   -    |    -     |
+" cmap / cnoremap  |    -   |   -    |    @    |   -    |   -    |    -     |
+"---------------------------------------------------------------------------"
