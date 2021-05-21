@@ -17,17 +17,16 @@ exec --no-startup-id nm-applet
 #exec --no-startup-id fcitx
 #exec --no-startup-id ibus
 #exec --no-startup-id megasync
-#exec --no-startup-id redshift
 #exec --no-startup-id blueman-applet
 exec --no-startup-id redshift-gtk
 #exec --no-startup-id ss-qt5
 
 #===programs shortcuts===
 
-# dmenu (a program launcher)
+# 
 #bindsym $mod+d exec --no-startup-id dmenu_run
-#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # terminal
 bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
@@ -45,7 +44,7 @@ bindsym Shift+Print exec "scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip 
 bindsym $mod+p exec --no-startup-id thunar
 
 # xfce4 app finder
-bindsym $mod+slash exec --no-startup-id xfce4-appfinder
+bindsym $mod+slash exec --no-startup-id rofi -show drun
 
 # bar toggle, hide or show
 bindsym $mod+m bar mode toggle
@@ -54,14 +53,14 @@ bindsym $mod+m bar mode toggle
 #---window style---
 
 # window gap
-gaps inner 8
-gaps outer 5
+gaps inner 4
+gaps outer -2
 smart_gaps on
 
 # new window
-#new_window pixel 3
+new_window pixel 10
 #new_float normal
-#hide_edge_borders both
+hide_edge_borders smart
 
 # window colors
 #  class                 border   backgr.  text  indicator  child_border
@@ -99,7 +98,8 @@ for_window [class="Nm-connection-editor"] floating enable sticky enable border n
 #---wallpaper---
 
 # static mode
-exec feh --bg-scale ~/Pictures/Wallpapers/space2.png
+# exec feh --bg-scale ~/Pictures/Wallpapers/space2.jpg
+exec feh --bg-scale ~/Pictures/Wallpapers/solarsystem.jpg
 
 # random mode
 #exec feh --randomize --bg-scale ~/Pictures/Wallpapers/*
@@ -125,8 +125,9 @@ bar {
     colors {
     #background #285477
     #statusline #dedede
+    #statusline #dedede
     #separator #2d2d2d
-    #focused_workspace #636e88 #285de7 #dedfdBg
+    focused_workspace #636e88 #285de7 #dedfdBg
     active_workspace #556677 #234567 #56ef67
     inactive_workspace #636d72 #2d2d2d #dedede
     urgent_workspace #ffffff #900000 #d23d32
@@ -254,6 +255,8 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
+default_border pixel 3
+default_floating_border normal
 # change border style
 bindsym $mod+u border none
 bindsym $mod+n border normal
@@ -363,6 +366,14 @@ bindsym XF86AudioNext exec "playerctl next"
 
 #===volume control===
 #using volumeicon
+
+# Use pactl to adjust volume in PulseAudio.
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
 #bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 -q set Master 2dB+ unmute && pkill -RTMIN+1 i3blocks
 #bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c 0 -q set Master 2dB- unmute && pkill -RTMIN+1 i3blocks
 #bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle && pkill -RTMIN+1 i3blocks
@@ -412,4 +423,5 @@ set $Locker /usr/bin/i3lock -e -t -i ~/Pictures/Wallpapers/moon.png
 # Automatically locks your screen before suspend/hibernation and after being idle for some time. Specify the time with xset if needed.
 # The locker must be no forking, you must pass the no fork (-n) flag to i3lock here
 #exec --no-startup-id /usr/bin/xss-lock -n /usr/share/doc/xss-lock/dim-screen.sh -- $Locker -n
-exec --no-startup-id /usr/bin/xss-lock -- $Locker -n
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker --nofork
+exec_always --no-startup-id exec i3-workspace-names

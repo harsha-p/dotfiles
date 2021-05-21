@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 13
+  size: 12
   normal:
     # Font family
     #
@@ -494,7 +494,7 @@ cursor:
   #thickness: 0.15
 
 # Live config reload (changes require restart)
-#live_config_reload: true
+live_config_reload: true
 
 # Shell
 #
@@ -510,14 +510,15 @@ cursor:
 #  args:
 #    - --login
 
-# shell:
-#   program: /usr/bin/tmux
-#   args:
-#     - new-session
-#     - -A
-#     - -D
-#     - -s
-#     - main
+shell:
+   program: /bin/zsh
+   args:
+     - -l
+     - -c
+     - "tmux || tmux attach"
+   #   - -D
+   #   - -s
+   #   - main
 
 
 # Startup directory
