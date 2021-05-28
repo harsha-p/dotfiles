@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 12
+  size: 13
   normal:
     # Font family
     #
@@ -339,7 +339,40 @@ schemes:
       #   text: '#eaeaea'
       #   background: '#404040'
 
-colors: *kitty
+    srcery: &srcery
+      primary:
+        background: '#1c1b19'
+        foreground: '#fce8c3'
+
+    # Cursor colors
+      cursor:
+        text: CellBackground
+        cursor: '#fbb829'
+
+    # Normal colors
+      normal:
+        black:   '#1c1b19'
+        red:     '#ef2f27'
+        green:   '#519f50'
+        yellow:  '#fbb829'
+        blue:    '#2c78bf'
+        magenta: '#e02c6d'
+        cyan:    '#0aaeb3'
+        white:   '#baa67f'
+
+    # Bright colors
+      bright:
+        black:   '#918175'
+        red:     '#f75341'
+        green:   '#98bc37'
+        yellow:  '#fed06e'
+        blue:    '#68a8e4'
+        magenta: '#ff5c8f'
+        cyan:    '#53fde9'
+        white:   '#fce8c3'
+
+
+colors: *srcery
 
 # Colors (Tomorrow Night)
 #colors:
