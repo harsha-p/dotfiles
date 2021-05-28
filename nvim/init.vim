@@ -8,11 +8,8 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'yggdroot/indentline'
-" Plug 'jiangmiao/auto-pairs'
 
 Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
-Plug 'thosakwe/vim-flutter',{'for':'dart'}
-" Plug 'leafgarland/typescript-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'lervag/vimtex'
 Plug 'mattn/emmet-vim'
@@ -22,17 +19,20 @@ Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-" Plug 'scrooloose/syntastic'
-" Plug 'dense-analysis/ale'
 
-Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' } |
+    \ Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+
 Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
 Plug 'shime/vim-livedown',{'for':'md'}
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive' " Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -42,7 +42,9 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'srcery-colors/srcery-vim'
 Plug 'morhetz/gruvbox'
-
+Plug 'danilo-augusto/vim-afterglow'
+Plug 'overcache/NeoSolarized'
+Plug 'dstein64/vim-startuptime'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
@@ -53,15 +55,13 @@ Plug 'vimwiki/vimwiki'
 call plug#end()
 
 if (has('nvim'))
-        " show results of substition as they're happening
-        " but don't open a split
-        set inccommand=nosplit
+        " Shows the effects of a command incrementally, as you type.
+        set inccommand=nosplit 
     endif
 
 filetype plugin indent on " enable file type detection
 
-" update file if content changed outside
-set autoread
+set autoread " update file if content changed outside
 
 set autoindent smartindent
 
@@ -89,7 +89,8 @@ if has('persistent_undo')         "check if your vim version supports
     set undofile                    "turn on the feature
 endif
 
-set textwidth=120
+set textwidth=120 " if formatoptions has t, tries to wrap text using whitespace as a delimiter after 120 characters
+set colorcolumn=120
 set backspace=indent,eol,start " make backspace behave in a sane manner
 set nocompatible " not vi compatible
 syntax on " turn on syntax highlighting
@@ -97,7 +98,7 @@ set nu rnu " number lines and revese number lines
 set lbr " line break
 set scrolloff=5 " show lines above and below cursor (when possible)
 set sidescrolloff=5
-set spell " disabled spell check
+set spell " disabled spell check, spell check => setlocal spell
 set tabpagemax=40
 set laststatus=2
 set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
@@ -108,22 +109,34 @@ set wrap " turn on line wrapping
 set linebreak " set soft wrapping
 set showbreak=↪
 set ttyfast " faster redrawing
+set path+=** " search down in subfolders, provides tab-completion to all file related tasks
+set wildignore+=**/.git/**,**/tmp/**,*.swp " Ignore files for completion
 set wildmenu " enhanced command line completion
+" now we can use :find by partial match #NOTE as path+=** find searches in all subfolders recursively
+
+" :b lets you autocomplete any open buffer by unique partial match
+" autocomplete good stuff is documented in ins-completion
+" ^x^n for JUST this file
+" ^x^f for filenames
+" ^x^] for tags only
+" ^n for anything specified by the 'complete' option
+" ^n and ^p for forward and backward in the suggestion list
+
 set hidden " current buffer can be put into background
 
 set showcmd " show incomplete commands
-set noshowmode " don't show which mode disabled for PowerLine
+" set noshowmode " don't show which mode disabled for PowerLine
 
-set cmdheight=1 " command bar height
+set cmdheight=2 " command bar height
 set title " set terminal title
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
 set updatetime=300
-set shortmess+=c
+set shortmess+=c " hide completion details
 
 set spr sb " show splits on the right and below
 
-set viminfo='100,<1000,s100,h " i don't know what this is
+set viminfo='100,<1000,s100,h " i don't know what this is, something related to shared data between vim sessions
 
 au VimResized * :wincmd = " equal sized splits
 
@@ -134,41 +147,27 @@ set dictionary+=/usr/share/dict/words
 "         set mouse=a
 "     endif
 
-" using coc-highlight. So, not using cursorline
-autocmd CursorHold * silent call CocActionAsync('highlight')
-" augroup CursorLineOnlyInActiveWindow
-"     autocmd!
-"     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-"     autocmd WinLeave * setlocal nocursorline
-" augroup END
-" set colorcolumn=80
+augroup CursorLineOnlyInActiveWindow
+    autocmd!
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
+augroup END
 
-" toggle invisible characters
-set list
+set list " toggle invisible characters
 set listchars=tab:»\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set formatoptions-=o " dont continue comments when using o or O in normal mode
 
 " code folding settings
 set foldmethod=indent " fold based on indent
 set foldlevelstart=99
 set foldnestmax=10 " deepest fold is 10 levels
-set nofoldenable " don't fold by default
-set foldlevel=1
+" set nofoldenable " don't fold by default
+" set foldlevel=1
 
 if &term =~ '256color'
     " disable background color erase
     set t_ut=
 endif
-
-" color scheme
-" set background=dark
-" let g:gruvbox_italic=1
-" let g:gruvbox_italicize_strings=1
-" let g:gruvbox_bold=1
-" let g:gruvbox_underline=1
-" let g:gruvbox_undercurl=1
-" let g:gruvbox_termcolors=256
-" let g:srcery_italic = 1
-colorscheme srcery
 
 if (has("termguicolors"))
     if (!(has("nvim")))
@@ -178,17 +177,32 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
-" Ignore files for completion
-set wildignore+=*/.git/*,*/tmp/*,*.swp
+" gruvbox {{{
+
+" set background=dark
+" let g:gruvbox_italic=1
+" let g:gruvbox_italicize_strings=1
+" let g:gruvbox_bold=1
+" let g:gruvbox_underline=1
+" let g:gruvbox_undercurl=1
+" let g:gruvbox_termcolors=256
+
+" }}}
+
+" srcery {{{
+
+let g:srcery_italic = 1
+let g:srcery_inverse_matches=1
+
+" let g:srcery_transparent_background = 1 
+" setting same bg color of vim as bg and having transparecy in kitty is also making vim transparent. Weird that i stumbled upon it.
+
+colorscheme srcery
+
+" }}}
 
 " italic comments
 highlight Comment cterm=italic gui=italic
-
-"use ctrl-[hjkl] to select the active split!
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
 
 "enable . command in visual mode
 vnoremap . :normal.<CR>
@@ -230,9 +244,10 @@ nnoremap <leader>V :source $MYVIMRC<CR>
 nnoremap <leader>S :mksession<CR>
 nmap <silent> // :nohlsearch<CR>
 nmap <leader>z <Plug>Zoom
+
 " switch between current and last buffer
 nmap <leader>. <c-^>
-
+nnoremap <leader>p:cd %:p<CR> " cd to dir of current file
 " for doing some things faster
 nnoremap <leader>q :bd<CR>
 nnoremap <leader>x :x<CR>
@@ -242,6 +257,21 @@ nnoremap <leader>w :w<CR>
 " open help for word under cursor
 nnoremap <silent> <Leader>hh :<C-U>help <C-R><C-W><CR>
 nnoremap <silent> <Leader>ht :<C-U>tab help <C-R><C-W><CR>
+
+" startify {{{
+
+let g:startify_change_to_dir = 0 " dont change current directory
+
+" }}}
+
+" indentline {{{
+
+let g:indentLine_concealcursor = ''
+let g:indentLine_conceallevel = 2
+let g:indentLine_char_list = ['|','▏', '│', '¦', '┆', '┊']
+let g:indentLine_enabled = 1
+
+" }}}
 
 
 "  netrw {{{
@@ -266,7 +296,32 @@ nnoremap <Leader>l :Files<CR>
 
 " NERDTree {{{
 
+let NERDTreeMinimalUI = 1
+let NERDTreeHijackNetrw = 0
+let g:NERDTreeGitStatusConcealBrackets = 1
+
 nnoremap <leader>n :NERDTreeToggle<CR>
+
+autocmd VimEnter *
+            \   if !argc()
+            \ |   Startify
+            \ |   execute 'NERDTree'
+            \ |   wincmd w
+            \ | endif
+
+" Start NERDTree. If a file is specified, move the cursor to its window.
+autocmd VimEnter * 
+            \   if argc()
+            \ |   execute 'NERDTree'
+            \ |   wincmd w
+            \ | endif
+
+" Exit Vim if NERDTree is the only window left.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " }}}
 
@@ -300,20 +355,13 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " gundo {{{
 
-nnoremap <Leader>g :GundoToggle<CR>
+nnoremap <Leader>gg :GundoToggle<CR>
 let g:gundo_right = 1
 if has('python3')
     let g:gundo_prefer_python3 = 1
 endif
 
 " }}}
-
-" latex-preview {{{
-
-let g:livepreview_previewer = 'zathura'
-
-" }}}
-
 " UltiSnips {{{
 
 let g:UltiSnipsEditSplit="vertical"
@@ -323,6 +371,13 @@ let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 
 
 " }}}
+
+" latex-preview {{{
+
+let g:livepreview_previewer = 'zathura'
+
+" }}}
+
 
 " vimtex {{{
 
@@ -334,20 +389,12 @@ let g:tex_conceal='abdmg'
 
 " }}}
 
-" indentline {{{
-
-let g:indentLine_char = 'c'
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_enabled = 1
-
-" }}}
-
 " autocmds {{{
 
 autocmd BufNewFile *.cpp 0r ~/.config/nvim/skeleton.cpp " template for cpp file
 
 if has("autocmd")
-    " jump to the last known location
+    " jump to the last known location, and dont do it while writing a commit(ig)
     augroup vimStartup
         au!
         autocmd BufReadPost *
@@ -355,18 +402,6 @@ if has("autocmd")
           \ |   exe "normal! g`\""
           \ | endif
     augroup END
-
-    " vim pretty display md
-    " augroup markDown
-    "     au!
-    "     autocmd BufReadPre *.md setlocal conceallevel=2 concealcursor=""
-    " augroup end
-
-
-    augroup nerdtreeClear
-        au!
-        autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | bd | endif
-    augroup end
 
     augroup filetypeVim
         au!
@@ -376,11 +411,6 @@ if has("autocmd")
     augroup emmetEnable
         au!
         autocmd FileType html,css,php,javascript.jsx EmmetInstall
-    augroup end
-
-    augroup sourceVimrc
-        au!
-        autocmd BufWritePost init.vim source %
     augroup end
 endif
 
@@ -405,21 +435,13 @@ endfunc
 
 " }}}
 
-" " Managing tab.
-" nnoremap <Leader>to :<C-U>tabnew<Space>
-" nnoremap <silent> <Leader>tc :<C-U>tabclose<CR>
-" nnoremap <silent> <Leader>j gT
-" nnoremap <silent> <Leader>k gt
+" internal vim packages {{{
 
-" " Spliting window.
-" nnoremap <Leader>sp  :<C-U>split<Space>
-" nnoremap <Leader>vsp :<C-U>vsplit<Space>
+packadd matchit
+packadd termdebug
+let g:termdebug_wide=1
 
-" " Changing window size.
-" noremap <silent> <S-Left>  :<C-U>wincmd <<CR>
-" noremap <silent> <S-Right> :<C-U>wincmd ><CR>
-" noremap <silent> <S-Up>    :<C-U>wincmd -<CR>
-" noremap <silent> <S-Down>  :<C-U>wincmd +<CR>
+"}}}
 
 "---------------------------------------------------------------------------"
 " Commands \ Modes | Normal | Insert | Command | Visual | Select | Operator |
