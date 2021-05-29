@@ -7,14 +7,7 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'yggdroot/indentline'
-
-Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'lervag/vimtex'
-Plug 'mattn/emmet-vim'
-Plug 'MaxMEllon/vim-jsx-pretty',{'for':'jsx'}
-Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
@@ -24,33 +17,37 @@ Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' } |
     \ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-
-Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
-Plug 'shime/vim-livedown',{'for':'md'}
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
-
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
-Plug 'srcery-colors/srcery-vim'
-Plug 'morhetz/gruvbox'
-Plug 'danilo-augusto/vim-afterglow'
-Plug 'overcache/NeoSolarized'
+Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'airblade/vim-gitgutter'
+
+Plug 'yggdroot/indentline'
 Plug 'dstein64/vim-startuptime'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'srcery-colors/srcery-vim'
+Plug 'morhetz/gruvbox'
+Plug 'overcache/NeoSolarized'
 Plug 'vimwiki/vimwiki'
+
+Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
+Plug 'lervag/vimtex'
+Plug 'mattn/emmet-vim'
+Plug 'MaxMEllon/vim-jsx-pretty',{'for':'jsx'}
+Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
+Plug 'shime/vim-livedown',{'for':'md'}
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 call plug#end()
 
@@ -418,6 +415,7 @@ endif
 
 " coc.nvim {{{
 
+let g:coc_global_extensions = ['coc-clangd', 'coc-css', 'coc-emmet', 'coc-flutter', 'coc-highlight', 'coc-html', 'coc-json', 'coc-markdownlint', 'coc-pairs', 'coc-prettier', 'coc-pyright', 'coc-python', 'coc-sh', 'coc-snippets', 'coc-texlab', 'coc-tsserver', 'coc-ultisnips', 'coc-vimtex']
 source ~/.config/nvim/coc-init.vim
 
 " }}}

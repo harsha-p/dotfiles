@@ -545,10 +545,10 @@ live_config_reload: true
 
 shell:
    program: /bin/zsh
-   args:
-     - -l
-     - -c
-     - "tmux || tmux attach"
+   # args:
+   #   - -l
+   #   - -c
+   #   - "tmux || tmux attach"
    #   - -D
    #   - -s
    #   - main

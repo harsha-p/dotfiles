@@ -1,50 +1,45 @@
-# i3 config file by Levinit  https://github.com/levinit
-# see http://i3wm.org/docs/userguide.html for a complete reference!
-
 # Super key(mod4 =windows logo key/Command key)
 set $mod Mod4
 
 #===autostart parograms===
-exec --no-startup-id ~/.config/i3/keymap
+exec --no-startup-id ~/.config/i3/keymap # SMART-MAP(esc+ctrl)
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-#exec --no-startup-id pamac-tray
-exec --no-startup-id xcompmgr
-exec --no-startup-id dunst
-exec --no-startup-id volumeicon
+exec --no-startup-id pamac-tray
+exec --no-startup-id picom
+exec --no-startup-id dunst # notifications
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id nm-applet
-#exec --no-startup-id sh -c "rclone --vfs-cache-mode writes mount \"onedrive_IIITH\": ~/onedrive_IIITH"
-#exec --no-startup-id fcitx
-#exec --no-startup-id ibus
-#exec --no-startup-id megasync
-#exec --no-startup-id blueman-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id flameshot
 exec --no-startup-id redshift-gtk
-#exec --no-startup-id ss-qt5
+# exec --no-startup-id volumeicon
+# exec --no-startup-id sh -c "rclone --vfs-cache-mode writes mount \"onedrive_IIITH\": ~/onedrive_IIITH"
+# exec --no-startup-id fcitx
+# exec --no-startup-id ibus
+# exec --no-startup-id megasync
+# exec --no-startup-id ss-qt5
 
 #===programs shortcuts===
 
-# 
-#bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+shift+d exec --no-startup-id i3-dmenu-desktop
 # bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # terminal
 bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 
-
 # browsers--firefox chromium
 #bindsym $mod+b exec firefox
-#bindsym $mod+c exec chromium
+bindsym $mod+c exec chromium
 
 # printscreen--scrot(Print=PrtSc/PrintScreen)
- bindsym Print --release exec "scrot -s $HOME/Pictures/Screenshots/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
-bindsym Shift+Print exec "scrot -s /tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+ bindsym Print --release exec "flameshot gui"
 
-# GUI file manager -- pcmanfm
+# GUI file manager -- thunar,pcmanfm
 bindsym $mod+p exec --no-startup-id thunar
 
 # xfce4 app finder
-bindsym $mod+slash exec --no-startup-id rofi -show drun
+# bindsym $mod+slash exec --no-startup-id rofi -show drun
 
 # bar toggle, hide or show
 bindsym $mod+m bar mode toggle
@@ -354,10 +349,7 @@ mode "resize" {
 }
 
 #===brightness===
-# XBACKLIGHT NOT WORKING using xfce4-power-manager,brightnessctl for i3blocks
-#bindsym XF86MonBrightnessUp $exec "xbacklight + 10 && pkill -RTMIN+2 i3blocks"
-#bindsym XF86MonBrightnessDown $exec "xbacklight - 10 && pkill -RTMIN+2 i3blocks"
-
+# XBACKLIGHT NOT WORKING using brightnessctl and xfce4-pow-man
 
 #===music control===
 bindsym XF86AudioPlay exec "playerctl play-pause"
@@ -365,18 +357,13 @@ bindsym XF86AudioPrev exec "playerctl previous"
 bindsym XF86AudioNext exec "playerctl next"
 
 #===volume control===
-#using volumeicon
 
 # Use pactl to adjust volume in PulseAudio.
-# set $refresh_i3status killall -SIGUSR1 i3status
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-#bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 -q set Master 2dB+ unmute && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c 0 -q set Master 2dB- unmute && pkill -RTMIN+1 i3blocks
-#bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle && pkill -RTMIN+1 i3blocks
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status 
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 #===power manager===
 set $mode_system select: lock(L) exit(E) suspend(S) reboot(R) poweroff(P) cancel(Esc/Return)
@@ -417,11 +404,13 @@ bindsym $mod+Shift+s restart
 # exit i3
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# vim:filetype=i3
 set $Locker /usr/bin/i3lock -e -t -i ~/Pictures/Wallpapers/moon.png
+
+#vim:filetype=i3
+
 # Autostart xss-lock session daemon
 # Automatically locks your screen before suspend/hibernation and after being idle for some time. Specify the time with xset if needed.
 # The locker must be no forking, you must pass the no fork (-n) flag to i3lock here
 #exec --no-startup-id /usr/bin/xss-lock -n /usr/share/doc/xss-lock/dim-screen.sh -- $Locker -n
 exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker --nofork
-exec_always --no-startup-id exec i3-workspace-names
+
