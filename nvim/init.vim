@@ -10,16 +10,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
-
-Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' } |
-    \ Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-Plug 'junegunn/fzf'
+Plug 'scrooloose/NERDTree',{ 'on': 'NERDTreeToggle' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
 Plug 'sjl/gundo.vim',{'on':'GundoToggle'}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
@@ -28,26 +21,30 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'airblade/vim-gitgutter'
-
+Plug 'jiangmiao/auto-pairs'
 Plug 'yggdroot/indentline'
-Plug 'dstein64/vim-startuptime'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 Plug 'srcery-colors/srcery-vim'
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/sonokai'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'overcache/NeoSolarized'
+Plug 'dstein64/vim-startuptime'
+Plug 'lambdalisue/suda.vim'
 Plug 'vimwiki/vimwiki'
-
-Plug 'dart-lang/dart-vim-plugin',{'for':'dart'}
+Plug 'psf/black', { 'branch': 'stable' }
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
 Plug 'lervag/vimtex'
 Plug 'mattn/emmet-vim'
-Plug 'MaxMEllon/vim-jsx-pretty',{'for':'jsx'}
-Plug 'peitalin/vim-jsx-typescript',{'for':'jsx'}
-Plug 'shime/vim-livedown',{'for':'md'}
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'shime/vim-livedown'
+Plug 'xuhdev/vim-latex-live-preview'
+Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
@@ -56,11 +53,13 @@ if (has('nvim'))
         set inccommand=nosplit 
     endif
 
-filetype plugin indent on " enable file type detection
+filetype plugin indent on " enable file type detectima
 
 set autoread " update file if content changed outside
 
 set autoindent smartindent
+
+" set clipboard=unnamedplus
 
 " Tab control
 set expandtab
@@ -86,12 +85,15 @@ if has('persistent_undo')         "check if your vim version supports
     set undofile                    "turn on the feature
 endif
 
-set textwidth=120 " if formatoptions has t, tries to wrap text using whitespace as a delimiter after 120 characters
-set colorcolumn=120
+set textwidth=78 " if formatoptions has t, tries to wrap text using whitespace as a delimiter after 120 characters
+set colorcolumn=80
 set backspace=indent,eol,start " make backspace behave in a sane manner
 set nocompatible " not vi compatible
 syntax on " turn on syntax highlighting
+
+" relative number causes all lines to redraw :(
 set nu rnu " number lines and revese number lines
+
 set lbr " line break
 set scrolloff=5 " show lines above and below cursor (when possible)
 set sidescrolloff=5
@@ -129,7 +131,7 @@ set title " set terminal title
 set showmatch " show matching braces
 set mat=2 " how many tenths of a second to blink
 set updatetime=300
-set shortmess+=c " hide completion details
+set shortmess+=I " hide completion details
 
 set spr sb " show splits on the right and below
 
@@ -144,18 +146,12 @@ set dictionary+=/usr/share/dict/words
 "         set mouse=a
 "     endif
 
-augroup CursorLineOnlyInActiveWindow
-    autocmd!
-    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    autocmd WinLeave * setlocal nocursorline
-augroup END
-
 set list " toggle invisible characters
 set listchars=tab:»\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set formatoptions-=o " dont continue comments when using o or O in normal mode
 
 " code folding settings
-set foldmethod=indent " fold based on indent
+set foldmethod=syntax " fold based on indent
 set foldlevelstart=99
 set foldnestmax=10 " deepest fold is 10 levels
 " set nofoldenable " don't fold by default
@@ -174,32 +170,36 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
-" gruvbox {{{
+" " gruvbox {{{
 
-" set background=dark
-" let g:gruvbox_italic=1
-" let g:gruvbox_italicize_strings=1
-" let g:gruvbox_bold=1
-" let g:gruvbox_underline=1
-" let g:gruvbox_undercurl=1
-" let g:gruvbox_termcolors=256
+" " set background=light
+" " let t_Co=256
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_italic=1
+let g:gruvbox_bold=1
+let g:gruvbox_underline=1
+let g:gruvbox_undercurl=1
+let g:gruvbox_termcolors=256
+" " colorscheme gruvbox
 
-" }}}
+" " }}}
 
 " srcery {{{
 
-let g:srcery_italic = 1
 let g:srcery_inverse_matches=1
-
-" let g:srcery_transparent_background = 1 
-" setting same bg color of vim as bg and having transparecy in kitty is also making vim transparent. Weird that i stumbled upon it.
-
+let g:srcery_italic = 1
 colorscheme srcery
 
 " }}}
 
-" italic comments
-highlight Comment cterm=italic gui=italic
+" let hr = (strftime('%H'))
+" if hr >= 19
+" set background=dark
+" elseif hr >= 8
+" set background=light
+" elseif hr >= 0
+" set background=dark
+" endif
 
 "enable . command in visual mode
 vnoremap . :normal.<CR>
@@ -240,15 +240,14 @@ nnoremap <leader>V :source $MYVIMRC<CR>
 " save session,  After saving a Vim session, you can reopen it with vim -S.
 nnoremap <leader>S :mksession<CR>
 nmap <silent> // :nohlsearch<CR>
-nmap <leader>z <Plug>Zoom
 
 " switch between current and last buffer
 nmap <leader>. <c-^>
 nnoremap <leader>p:cd %:p<CR> " cd to dir of current file
 " for doing some things faster
-nnoremap <leader>q :bd<CR>
-nnoremap <leader>x :x<CR>
-nnoremap <leader>w :w<CR>
+nnoremap <silent><nowait> <space>q :bd<CR>
+nnoremap <silent><nowait> <space>x :x<CR>
+nnoremap <silent><nowait> <space>w :w<CR>
 
 
 " open help for word under cursor
@@ -261,15 +260,33 @@ let g:startify_change_to_dir = 0 " dont change current directory
 
 " }}}
 
+" surround {{{
+
+" Ctrl-s ( --> (|) 
+" Ctrl-s [ --> [ | ]
+" Ctrl-s ] --> [|]
+" Ctrl-s <div> --> <div>|</div>
+" Ctrl-s-s { -->
+
+" }}}
+
 " indentline {{{
 
 let g:indentLine_concealcursor = ''
 let g:indentLine_conceallevel = 2
 let g:indentLine_char_list = ['|','▏', '│', '¦', '┆', '┊']
 let g:indentLine_enabled = 1
+" let g:indentLine_fileTypeExclude = ['json', 'md', 'markdown', 'vimwiki', '.wiki']
+let g:indentLine_fileTypeExclude = ['json']
+let g:indentLine_bufTypeExclude = ['help', 'terminal', 'vimwiki']
 
 " }}}
 
+" wiki {{{
+
+let g:vimwiki_global_ext = 0
+
+" }}}
 
 "  netrw {{{
 
@@ -299,26 +316,12 @@ let g:NERDTreeGitStatusConcealBrackets = 1
 
 nnoremap <leader>n :NERDTreeToggle<CR>
 
-autocmd VimEnter *
-            \   if !argc()
-            \ |   Startify
-            \ |   execute 'NERDTree'
-            \ |   wincmd w
-            \ | endif
+" }}}
 
-" Start NERDTree. If a file is specified, move the cursor to its window.
-autocmd VimEnter * 
-            \   if argc()
-            \ |   execute 'NERDTree'
-            \ |   wincmd w
-            \ | endif
+" Black {{{
 
-" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
-" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+let g:black_linelength = 80
+let g:black_quiet = 1
 
 " }}}
 
@@ -334,12 +337,6 @@ let g:user_emmet_settings = {
 \}
 
 "  }}}
-
-" Wiki {{{
-
-" let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
-
-" }}}
 
 " airline {{{
 
@@ -359,15 +356,15 @@ if has('python3')
 endif
 
 " }}}
-" UltiSnips {{{
+" " UltiSnips {{{
 
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsExpandTrigger = "<C-j>"
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+" let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsExpandTrigger = "<C-j>"
+" let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+" let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 
 
-" }}}
+" " }}}
 
 " latex-preview {{{
 
@@ -388,10 +385,9 @@ let g:tex_conceal='abdmg'
 
 " autocmds {{{
 
-autocmd BufNewFile *.cpp 0r ~/.config/nvim/skeleton.cpp " template for cpp file
 
 if has("autocmd")
-    " jump to the last known location, and dont do it while writing a commit(ig)
+"     " jump to the last known location, and dont do it while writing a commit(ig)
     augroup vimStartup
         au!
         autocmd BufReadPost *
@@ -400,22 +396,71 @@ if has("autocmd")
           \ | endif
     augroup END
 
-    augroup filetypeVim
-        au!
-        autocmd FileType vim setlocal foldmethod=marker
-    augroup end
+    " autocmd BufNewFile *.cpp 0r ~/.config/nvim/skeleton.cpp  " template for cpp file
 
-    augroup emmetEnable
-        au!
-        autocmd FileType html,css,php,javascript.jsx EmmetInstall
-    augroup end
+    " " cursorline {{{
+
+    " " cursorline causes all lines to redraw :(
+    " augroup CursorLineOnlyInActiveWindow
+    "     autocmd!
+    "     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    "     autocmd WinLeave * setlocal nocursorline
+    " augroup END
+
+    " augroup NoCursorlineInInsertMode
+    "     autocmd!
+    "     autocmd InsertLeave,WinEnter * set cursorline
+    "     autocmd InsertEnter,WinLeave * set nocursorline
+    " augroup END
+
+    " " }}}
+
+    " augroup filetypeVim
+    "     au!
+    "     autocmd FileType vim setlocal foldmethod=marker
+    " augroup end
+
+    " augroup emmetEnable
+    "     au!
+    "     autocmd FileType html,css,php,javascript.jsx EmmetInstall
+    " augroup end
+
+    " nerdtree {{{
+
+    " autocmd VimEnter *
+    "             \   if !argc()
+    "             \ |   Startify
+    "             \ |   execute 'NERDTree'
+    "             \ |   wincmd w
+    "             \ | endif
+
+    " " Start NERDTree. If a file is specified, move the cursor to its window.
+    " autocmd VimEnter * 
+    "             \   if argc()
+    "             \ |   execute 'NERDTree'
+    "             \ |   wincmd w
+    "             \ | endif
+
+    " Exit Vim if NERDTree is the only window left.
+    " autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    "     \ quit | endif
+    " " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+    " autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    "     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+    " }}}
+
 endif
 
 " }}}
 
 " coc.nvim {{{
 
-let g:coc_global_extensions = ['coc-clangd', 'coc-css', 'coc-emmet', 'coc-flutter', 'coc-highlight', 'coc-html', 'coc-json', 'coc-markdownlint', 'coc-pairs', 'coc-prettier', 'coc-pyright', 'coc-python', 'coc-sh', 'coc-snippets', 'coc-texlab', 'coc-tsserver', 'coc-ultisnips', 'coc-vimtex']
+" Coc-Pyright by default looks at root git directory and not subdirectory. 
+au FileType python let b:coc_root_patterns = ['.env', 'venv', '.venv', '.git', 'setup.cfg', 'setup.py', 'pyrightconfig.json', 'env']
+
+let g:coc_global_extensions = ['coc-clangd', 'coc-css', 'coc-emmet', 'coc-html', 'coc-json', 'coc-markdownlint', 'coc-prettier', 'coc-pyright', 'coc-texlab', 'coc-tsserver', 'coc-vimtex','coc-flutter']
+
 source ~/.config/nvim/coc-init.vim
 
 " }}}
@@ -435,7 +480,9 @@ endfunc
 
 " internal vim packages {{{
 
-packadd matchit
+if has('syntax') && has('eval')
+    packadd! matchit
+endif
 packadd termdebug
 let g:termdebug_wide=1
 

@@ -66,7 +66,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <Leader>K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -127,6 +127,11 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
@@ -136,16 +141,29 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+nmap <leader>ca  <Plug>(coc-codeaction-selected)<cr>
+xmap <leader>ca  <Plug>(coc-codeaction-selected)<cr>
+
+nnoremap <leader>cd  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <leader>ce  :<C-u>CocList extensions<cr>
 " Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+nnoremap <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <leader>cp  :<C-u>CocListResume<CR>
 
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)

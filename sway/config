@@ -19,13 +19,13 @@ set $term alacritty
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
-#set $menu wofi --show=drun --lines=5 --prompt=""
-set $menu nwggrid
+set $menu wofi --show=drun --lines=5 --prompt=""
+# set $menu nwggrid
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg ~/Pictures/Wallpapers/human.jpg fill
+output * bg ~/Pictures/wallpapers/human.jpg fill
 #
 # Example configuration:
 #
@@ -91,8 +91,8 @@ exec swayidle -w \
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-	bindsym $mod+Shift+e  exec nwgbar
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+	# bindsym $mod+Shift+e  exec nwgbar
 #
 # Moving around:
 #

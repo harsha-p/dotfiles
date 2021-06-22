@@ -2,7 +2,9 @@
 set $mod Mod4
 
 #===autostart parograms===
-exec --no-startup-id ~/.config/i3/keymap # SMART-MAP(esc+ctrl)
+
+exec --no-startup-id ~/.config/i3/keymap  # SMART-MAP(esc+ctrl)
+exec --no-startup-id xset -b
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id pamac-tray
 exec --no-startup-id picom
@@ -11,8 +13,9 @@ exec --no-startup-id xfce4-power-manager
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 exec --no-startup-id flameshot
+exec --no-startup-id volumeicon
+exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent &
 exec --no-startup-id redshift-gtk
-# exec --no-startup-id volumeicon
 # exec --no-startup-id sh -c "rclone --vfs-cache-mode writes mount \"onedrive_IIITH\": ~/onedrive_IIITH"
 # exec --no-startup-id fcitx
 # exec --no-startup-id ibus
@@ -23,28 +26,24 @@ exec --no-startup-id redshift-gtk
 
 bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+shift+d exec --no-startup-id i3-dmenu-desktop
-# bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # terminal
 bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 
-# browsers--firefox chromium
+# browsers--firefox brave
 #bindsym $mod+b exec firefox
-bindsym $mod+c exec chromium
 
 # printscreen--scrot(Print=PrtSc/PrintScreen)
- bindsym Print --release exec "flameshot gui"
+bindsym Print --release exec "flameshot gui"
 
 # GUI file manager -- thunar,pcmanfm
-bindsym $mod+p exec --no-startup-id thunar
-
-# xfce4 app finder
-# bindsym $mod+slash exec --no-startup-id rofi -show drun
+bindsym $mod+p exec --no-startup-id pcmanfm
 
 # bar toggle, hide or show
 bindsym $mod+m bar mode toggle
 
 #===appearance===
+
 #---window style---
 
 # window gap
@@ -53,7 +52,7 @@ gaps outer -2
 smart_gaps on
 
 # new window
-new_window pixel 10
+new_window pixel 2
 #new_float normal
 hide_edge_borders smart
 
@@ -93,29 +92,27 @@ for_window [class="Nm-connection-editor"] floating enable sticky enable border n
 #---wallpaper---
 
 # static mode
-# exec feh --bg-scale ~/Pictures/Wallpapers/space2.jpg
-exec feh --bg-scale ~/Pictures/Wallpapers/solarsystem.jpg
+# exec feh --bg-scale ~/Pictures/wallpapers/space2.jpg
+exec feh --bg-scale ~/Pictures/wallpapers/i3_dark.png
 
 # random mode
-#exec feh --randomize --bg-scale ~/Pictures/Wallpapers/*
+#exec feh --randomize --bg-scale ~/Pictures/wallpapers/*
 #exec --no-startup-id  ~/.config/i3/wallpaper.sh &
 
 # font
-font pango: Fantasque Sans Mono 10
+font pango: Iosevka 10
 #---bar---
 
 bar {
-#    status_command i3status -c ~/.config/i3/i3status.conf
+    #status_command i3status -c ~/.config/i3/i3status.conf
     status_command i3blocks -c ~/.config/i3/i3blocks.conf
     tray_output primary
     #position top
-    #mode hide
     workspace_buttons yes
-    #output eDP-1
-    #tray_output primary
     tray_padding 0
     separator_symbol "|"
 	#strip_workspace_numbers yes
+    font pango:DejaVu Sans Mono 10
 
     colors {
     #background #285477
@@ -134,7 +131,7 @@ bar {
 exec --no-startup-id /usr/bin/xrandr --output eDP-1 --primary
 
 # external display device(eDP-1 is the display device's name, use the command "xrandr" to see the display device name.)
-exec --no-startup-id /usr/bin/xrandr --output HDMI-1 1366*768 --right-of eDP-1
+# exec --no-startup-id /usr/bin/xrandr --output HDMI-1 1366*768 --right-of eDP-1
 
 #===workspace control===
 
@@ -144,20 +141,16 @@ exec --no-startup-id /usr/bin/xrandr --output HDMI-1 1366*768 --right-of eDP-1
 #workspace "3:Code" output eDP-1
 #workspace "9:Mail" output eDP-1
 
-#set $ws1 "1: "
-#set $ws2 "2: "
-#set $ws5 "10: "
-
-workspace $workspace1 output eDP-1
-workspace $workspace2 output eDP-1
-workspace $workspace3 output eDP-1
-workspace $workspace4 output eDP-1
-workspace $workspace5 output eDP-1
-workspace $workspace6 output eDP-1
-workspace $workspace7 output eDP-1
-workspace $workspace8 output eDP-1
-workspace $workspace9 output HDMI-1
-workspace $workspace10 output HDMI-1
+# workspace $workspace1 output eDP-1
+# workspace $workspace2 output eDP-1
+# workspace $workspace3 output eDP-1
+# workspace $workspace4 output eDP-1
+# workspace $workspace5 output eDP-1
+# workspace $workspace6 output eDP-1
+# workspace $workspace7 output eDP-1
+# workspace $workspace8 output eDP-1
+# workspace $workspace9 output HDMI-1
+# workspace $workspace10 output HDMI-1
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -169,7 +162,7 @@ bindsym $mod+6 workspace $workspace6
 bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
-bindsym $mod+0 workspace $workspace10
+# bindsym $mod+0 workspace $workspace10
 
 # move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $workspace1
@@ -181,7 +174,7 @@ bindsym $mod+Ctrl+6 move container to workspace $workspace6
 bindsym $mod+Ctrl+7 move container to workspace $workspace7
 bindsym $mod+Ctrl+8 move container to workspace $workspace8
 bindsym $mod+Ctrl+9 move container to workspace $workspace9
-bindsym $mod+Ctrl+0 move container to workspace $workspace10
+# bindsym $mod+Ctrl+0 move container to workspace $workspace10
 
 # Move to workspace with focused container
 bindsym $mod+Shift+1 move container to workspace $workspace1 ; workspace $workspace1
@@ -193,22 +186,21 @@ bindsym $mod+Shift+6 move container to workspace $workspace6 ; workspace $worksp
 bindsym $mod+Shift+7 move container to workspace $workspace7 ; workspace $workspace7
 bindsym $mod+Shift+8 move container to workspace $workspace8 ; workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9 ; workspace $workspace9
-bindsym $mod+Shift+10 move container to workspace $workspace10 ; workspace $workspace10
+# bindsym $mod+Shift+10 move container to workspace $workspace10 ; workspace $workspace10
 
 set $workspace1 "1:"
 set $workspace2 "2:"
 set $workspace3 "3:"
 set $workspace4 "4:"
 set $workspace5 "5:"
-set $workspace6 "l6"
-set $workspace7 "l7"
-set $workspace8 "l8"
-set $workspace9 "l9"
-set $workspace10 "l10"
+set $workspace6 "6"
+set $workspace7 "7"
+set $workspace8 "8"
+set $workspace9 "9"
 
 
 # putting clients on specific workspaces
-#assign [class="Chromium"] $workspace2
+#assign [class="Brave"] $workspace2
 #assign [class=".*firefox.*"] $workspace2
 #assign [class=".*Teams.*"] $workspace4
 
@@ -278,10 +270,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # focus the parent container
-#bindsym $mod+mod4+p focus parent
+bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+c focus child
 
 #---move window---
 
@@ -302,7 +294,7 @@ bindsym $mod+Shift+Right move right
 #---split window---
 
 # horizontal orientation
-bindsym mod1+h split h
+bindsym mod1+b split h
 
 # vertical orientation
 bindsym mod1+v split v
@@ -359,19 +351,19 @@ bindsym XF86AudioNext exec "playerctl next"
 #===volume control===
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status 
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 #===power manager===
 set $mode_system select: lock(L) exit(E) suspend(S) reboot(R) poweroff(P) cancel(Esc/Return)
 
-bindsym mod1+l exec --no-startup-id i3lock -i ~/Pictures/Wallpapers/moon.png
+bindsym mod1+l exec --no-startup-id i3lock -i ~/Pictures/wallpapers/moon.png
 bindsym $mod+Shift+e mode "$mode_system"
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3lock -i ~/Pictures/Wallpapers/moon.png, mode "default"
+    bindsym l exec --no-startup-id i3lock -i ~/Pictures/wallpapers/moon.png, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
@@ -394,7 +386,7 @@ bindsym $mod+Shift+s restart
 
 # i3lock
  mode "i3lock: Return to lock/Escape to Cancel" {
-            bindsym Return mode "default" exec i3lock -I 600 -i ~/Pictures/Wallpapers/moon.png
+            bindsym Return mode "default" exec i3lock -I 600 -i ~/Pictures/wallpapers/moon.png
             bindsym Escape mode "default"
     }
 
@@ -404,7 +396,7 @@ bindsym $mod+Shift+s restart
 # exit i3
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-set $Locker /usr/bin/i3lock -e -t -i ~/Pictures/Wallpapers/moon.png
+set $Locker /usr/bin/i3lock -e -t -i ~/Pictures/wallpapers/moon.png
 
 #vim:filetype=i3
 

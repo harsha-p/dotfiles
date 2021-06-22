@@ -49,7 +49,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: none
+  decorations: full
 
   # Startup Mode (changes require restart)
   #
@@ -89,7 +89,7 @@ scrolling:
 # Font configuration
 font:
   # Normal (roman) font face
-  size: 13
+  size: 11
   normal:
     # Font family
     #
@@ -548,7 +548,8 @@ shell:
    # args:
    #   - -l
    #   - -c
-   #   - "tmux || tmux attach"
+   #   - tmux
+     # - "tmux attach || tmux"
    #   - -D
    #   - -s
    #   - main
