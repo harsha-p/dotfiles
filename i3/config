@@ -93,7 +93,7 @@ for_window [class="Nm-connection-editor"] floating enable sticky enable border n
 
 # static mode
 # exec feh --bg-scale ~/Pictures/wallpapers/space2.jpg
-exec feh --bg-scale ~/Pictures/wallpapers/i3_dark.png
+exec feh --bg-scale ~/.config/i3/gruvbox.png
 
 # random mode
 #exec feh --randomize --bg-scale ~/Pictures/wallpapers/*
@@ -248,7 +248,7 @@ default_floating_border normal
 bindsym $mod+u border none
 bindsym $mod+n border normal
 bindsym $mod+o border pixel 1
-bindsym $mod+b border toggle
+bindsym mod1+b border toggle
 
 #---window focus---
 
@@ -294,10 +294,10 @@ bindsym $mod+Shift+Right move right
 #---split window---
 
 # horizontal orientation
-bindsym mod1+b split h
+bindsym $mod+b split h
 
 # vertical orientation
-bindsym mod1+v split v
+bindsym $mod+v split v
 
 
 #---resize window---
@@ -360,10 +360,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 #===power manager===
 set $mode_system select: lock(L) exit(E) suspend(S) reboot(R) poweroff(P) cancel(Esc/Return)
 
-bindsym mod1+l exec --no-startup-id i3lock -i ~/Pictures/wallpapers/moon.png
+bindsym mod1+l exec --no-startup-id i3lock -i ~/.config/i3/lock.png
 bindsym $mod+Shift+e mode "$mode_system"
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3lock -i ~/Pictures/wallpapers/moon.png, mode "default"
+    bindsym l exec --no-startup-id i3lock -i ~/.config/i3/lock.png, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
@@ -386,7 +386,7 @@ bindsym $mod+Shift+s restart
 
 # i3lock
  mode "i3lock: Return to lock/Escape to Cancel" {
-            bindsym Return mode "default" exec i3lock -I 600 -i ~/Pictures/wallpapers/moon.png
+            bindsym Return mode "default" exec i3lock -I 600 -i ~/.config/i3/lock.png
             bindsym Escape mode "default"
     }
 
@@ -396,7 +396,7 @@ bindsym $mod+Shift+s restart
 # exit i3
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-set $Locker /usr/bin/i3lock -e -t -i ~/Pictures/wallpapers/moon.png
+set $Locker /usr/bin/i3lock -e -t -i ~/.config/i3/lock.png
 
 #vim:filetype=i3
 
