@@ -15,9 +15,6 @@ typedef long double ld;
 #define deb2(a,b) cout<<#a<<" = "<<(a)<<", "<<#b<<" = "<<(b)<<endl;
 #define deb3(a,b,c) cout<<#a<<" = "<<(a)<<", "<<#b<<" = "<<(b)<<", "<<#c<<" = "<<(c)<<endl;
 
-void solve()
-{
-}
 
 int main()
 {
