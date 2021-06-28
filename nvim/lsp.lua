@@ -113,3 +113,15 @@ require'lspinstall'.post_install_hook = function ()
   setup_servers() -- reload installed servers
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
+
+--[[
+-- cosmetics
+vim.fn.sign_define("LspDiagnosticsSignError",
+    {text = "", texthl = "GruvboxRed"})
+vim.fn.sign_define("LspDiagnosticsSignWarning",
+    {text = "", texthl = "GruvboxYellow"})
+vim.fn.sign_define("LspDiagnosticsSignInformation",
+    {text = "", texthl = "GruvboxBlue"})
+vim.fn.sign_define("LspDiagnosticsSignHint",
+    {text = "", texthl = "GruvboxAqua"})
+-- ]]

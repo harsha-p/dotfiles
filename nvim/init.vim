@@ -22,10 +22,7 @@ Plug 'yggdroot/indentline'
 Plug 'mhinz/vim-startify'
 Plug 'srcery-colors/srcery-vim'
 Plug 'morhetz/gruvbox'
-Plug 'sainnhe/sonokai'
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'overcache/NeoSolarized'
-Plug 'dstein64/vim-startuptime'
 Plug 'lambdalisue/suda.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'lervag/vimtex'
@@ -189,6 +186,30 @@ noremap <Right> <NOP>
 
 " }}}
  
+" Leader {{{
+
+let mapleader=" "
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>V :source $MYVIMRC<CR>
+" save session,  After saving a Vim session, you can reopen it with vim -S.
+nnoremap <leader>S :mksession<CR>
+nmap <silent> // :nohlsearch<CR>
+
+" switch between current and last buffer
+nmap <leader>. <c-^>
+nnoremap <leader>p:cd %:p<CR> " cd to dir of current file
+" for doing some things faster
+nnoremap <silent><nowait> <space>q :bd<CR>
+nnoremap <silent><nowait> <space>x :x<CR>
+nnoremap <silent><nowait> <space>w :w<CR>
+
+
+" open help for word under cursor
+nnoremap <silent> <Leader>hh :<C-U>help <C-R><C-W><CR>
+nnoremap <silent> <Leader>ht :<C-U>tab help <C-R><C-W><CR>
+
+ " }}}
+
 " statusline {{{
 
 " luafile ~/.config/nvim/statusline.lua
@@ -197,6 +218,24 @@ noremap <Right> <NOP>
 
 " bufferline {{{
 luafile ~/.config/nvim/bufferline.lua
+" }}}
+
+" nvim-tree {{{
+
+let g:nvim_tree_side = 'right' "left by default
+let g:nvim_tree_auto_open = 1
+let g:nvim_tree_auto_close = 1
+let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
+let g:nvim_tree_follow = 1
+let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_hide_dotfiles = 1
+let g:nvim_tree_git_hl = 1
+let g:nvim_tree_highlight_opened_files = 1
+let g:nvim_tree_tab_open = 1
+let g:nvim_tree_lsp_diagnostics = 1
+
+nnoremap <leader>n :NvimTreeToggle<CR>
+
 " }}}
 
 " gruvbox {{{
@@ -233,30 +272,6 @@ require'telescope'.load_extension('project')
 EOF
 
 " }}}
-
-" Leader {{{
-
-let mapleader=" "
-nnoremap <leader>ev :e $MYVIMRC<CR>
-nnoremap <leader>V :source $MYVIMRC<CR>
-" save session,  After saving a Vim session, you can reopen it with vim -S.
-nnoremap <leader>S :mksession<CR>
-nmap <silent> // :nohlsearch<CR>
-
-" switch between current and last buffer
-nmap <leader>. <c-^>
-nnoremap <leader>p:cd %:p<CR> " cd to dir of current file
-" for doing some things faster
-nnoremap <silent><nowait> <space>q :bd<CR>
-nnoremap <silent><nowait> <space>x :x<CR>
-nnoremap <silent><nowait> <space>w :w<CR>
-
-
-" open help for word under cursor
-nnoremap <silent> <Leader>hh :<C-U>help <C-R><C-W><CR>
-nnoremap <silent> <Leader>ht :<C-U>tab help <C-R><C-W><CR>
-
- " }}}
 
 " startify {{{
 
@@ -400,11 +415,6 @@ if has("autocmd")
         au!
         autocmd FileType html,css,php,javascript.jsx EmmetInstall
     augroup end
-
-	augroup filetypeVim
-        au!
-        autocmd FileType vim setlocal foldmethod=marker
-	augroup end
 
 endif
 
